@@ -1,0 +1,39 @@
+html,body,p,div,h1,h2,h3,h4,h5,h6,img,pre,form,fieldset {
+    margin: 0;
+    padding: 0
+}
+
+ul,ol,dl {
+    margin: 0
+}
+
+body {
+    background: #f4f5f7;
+    color: #172b4d;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    letter-spacing: 0
+}
+
+[lang|=en] {
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Fira Sans","Droid Sans","Helvetica Neue",sans-serif
+}
+
+p,ul,ol,dl,h1,h2,h3,h4,h5,h6,blockquote,pre,form.aui,table.aui,.aui-tabs,.aui-panel,.aui-group {
+    margin: 10px 0 0 0
+}
+
+p:first-child,ul:first-child,ol:first-child,dl:first-child,h1:first-child,h2:first-child,h3:first-child,h4:first-child,h5:first-child,h6:first-child,blockquote:first-child,pre:first-child,form.aui:first-child,table.aui:first-child,.aui-tabs:first-child,.aui-panel:first-child,.aui-group:first-child {
+    margin-top: 0
+}
+
+h1,h2,h3,h4,h5,h6 {
+    color: #172b4d
+}
+
+a, a:visited, a:focus, a:hover, a:active, a.blogHeading {
+    color: #0052cc;
+    text-decoration: none
+}

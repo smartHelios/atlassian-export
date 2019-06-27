@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Issue Index</title>
+    <link rel="stylesheet" type="text/css" href="<%= stylesDir %>/nav.css">
+</head>
+<body>
+    <div class="sidenav">
+        <ul><% menu.each { href, title -> %>
+            <li><a href="<%= href %>"><%= title %></a></li><% } %>
+        </ul>
+    </div>
+    <div class="main">
+        <div class="export-meta">
+            <table>
+                <tr>
+                    <td class="label">Export date</td>
+                    <td class="value"><%= html.format(exportMeta.exportDate) %></td>
+                </tr>
+                <tr>
+                    <td class="label">Export source JIRA</td>
+                    <td class="value"><%
+                        if(exportMeta.baseUrl) {
+                        %>
+                        <a href="<%= exportMeta.baseUrl %>"><%= exportMeta.baseUrl %></a><%
+                        }
+                        else {
+                        %>
+                        -<%
+                        }
+                        %>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">Export JQL</td>
+                    <td class="value"><code><%= exportMeta.exportJql %></code></td>
+                </tr>
+            </table>
+        </div>
+        <div class="issue-index">
+            <h2>Epic - Story - Subtask</h2>
+            <%= epicTree ?: 'not available' %>
+            <h2>Task/Story - Subtask</h2>
+            <%= noEpicTree ?: 'not available' %>
+            <h2>Remaining ...</h2>
+            <%= remainingList ?: 'not available' %>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title><%= page.title %></title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="<%= stylesDir %>/confluence-batch.css">
+    <link rel="stylesheet" type="text/css" href="<%= stylesDir %>/nav.css">
+</head>
+<body>
+<div class="sidenav">
+    <%= nav %>
+</div>
+<div class="main">
+    <h1 class="page-title"><%= page.title %></h1>
+    <%= content %>
+    <hr class="meta-divider">
+    <%= attachments %>
+</div>
+</body>
+</html>

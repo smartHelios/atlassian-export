@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= issue.key %> - <%=issue.summary %></title>
+    <link rel="stylesheet" type="text/css" href="<%= stylesDir %>/nav.css">
+</head>
+<body>
+    <div class="sidenav">
+        <ul><% menu.each { href, title -> %>
+            <li><a href="<%= href %>"><%= title %></a></li><% } %>
+        </ul>
+    </div>
+    <div class="main">
+        <h1><%= issue.key %> - <%=issue.summary %></h1>
+        <div class="issue details">
+            <h2>Details</h2>
+            <table>
+                <tr>
+                    <td class="label">Type:</td>
+                    <td class="value"><img src="<%= imagesDir %>/<%= issue.issueType.iconImage.exportFilename %>" /> <%= issue.issueType.name %></td>
+                    <td class="label">Design:</td>
+                    <td class="value"><%= issue.design ?: '-' %></td>
+                </tr>
+                <tr>
+                    <td class="label">Component/s:</td>
+                    <td class="value"><%= issue.components.collect { html.format(it) }.join(', ') %></td>
+                    <td class="label">Risk evaluation:</td>
+                    <td class="value"><%= issue.riskEvaluation ?: '-' %></td>
+                </tr>
+                <tr>
+                    <td class="label">Labels:</td>
+                    <td class="value"><%= issue.labels.join(', ') %></td>
+                    <td class="label">Change evaluation:</td>
+                    <td class="value"><%= issue.changeEvaluation ?: '-' %></td>
+                </tr>
+                <tr>
+                    <td class="label">Epic:</td>
+                    <td class="value"><%= issue.epicKey ?: '-' %></td>
+                    <td class="label">Reporter:</td>
+                    <td class="value"><%= html.format(issue.reporter) %></td>
+                </tr>
+                <tr>
+                    <td class="label">Sprint:</td>
+                    <td class="value"><%= issue.sprints.collect { html.format(it) }.join(', ') %></td>
+                    <td class="label">&nbsp;</td>
+                    <td class="value">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="label">Created:</td>
+                    <td class="value"><%= html.format(issue.created) %></td>
+                    <td class="label">Updated:</td>
+                    <td class="value"><%= html.format(issue.updated) %></td>
+                </tr>
+            </table>
+        </div>
+        <div class="issue description">
+            <h2>Description</h2>
+            <%= issue.descriptionHtml ? htmlFilter.apply(issue.descriptionHtml) : '-' %>
+        </div>
+        <hr class="meta-divider">
+        <div class="issue attachments">
+            <h2>Attachments</h2><%
+
+            if(issue.attachments) {
+
+            %>
+            <table>
+                <tr>
+                    <th>Filename</th>
+                    <th>Size</th>
+                    <th>Author</th>
+                    <th>Created</th>
+                </tr>
+                <% issue.attachments.each { attachment -> %>
+                <tr>
+                    <td><a class="attachmentLink" href="<%= attachmentsDir %>/<%= issue.key %>/<%= attachment.filename %>"><%= attachment.filename %></a></td>
+                    <td><%= html.humanBytes(attachment.size) %></td>
+                    <td><%= html.format(attachment.author) %></td>
+                    <td><%= html.format(attachment.created) %></td>
+                </tr>
+                <% } %>
+            </table><%
+
+            }
+            else {
+
+            %>
+            not available<%
+
+            }
+
+            %>
+        </div>
+        <hr class="meta-divider">
+        <div class="issue links">
+            <h2>Issue Links</h2><%
+
+            if(issue.subTasks) {
+
+            %>
+            <h3>Sub tasks</h3>
+            <ul class="subtasks"><%
+                issue.subTasks.each { subTask ->
+                %>
+                <li><%= issues.contains(subTask.key) ? html.format(subTask, imagesDir) : html.format(subTask, imagesDir, exportMeta.baseUrl) %></li><%
+                }
+                %>
+            </ul><%
+
+            }
+
+            if(issue.issueLinks) {
+
+            %>
+            <h3>Issue links</h3>
+            <ul class="issuelinks"><%
+                issue.issueLinks.each { issueLink ->
+                %>
+                <li><%
+                    if(issueLink.outward) {
+                        print issueLink.type.outward
+                        print ' '
+                        print issues.contains(issueLink.outward.key) ? html.format(issueLink.outward, imagesDir) : html.format(issueLink.outward, imagesDir, exportMeta.baseUrl)
+                    }
+                    else if(issueLink.inward) {
+                        print issueLink.type.inward
+                        print ' '
+                        print issues.contains(issueLink.inward.key) ? html.format(issueLink.inward, imagesDir) : html.format(issueLink.inward, imagesDir, exportMeta.baseUrl)
+                    }
+                    else {
+                        print 'ERROR: neither inward nor outward issue given!'
+                    }
+                %></li><%
+                }
+                %>
+            </ul><%
+
+            }
+
+            if( !(issue.subTasks||issue.issueLinks) ) {
+                print 'not available'
+            }
+            %>
+        </div>
+        <hr class="meta-divider">
+        <div class="issue comments">
+            <h2>Comments</h2><%
+
+            if(issue.comments) {
+                issue.comments.each { comment ->
+
+            %>
+            <div class="commentMeta">
+                <%= html.format(comment.author) %> on <%= html.format(comment.created) %> <%
+                    if(comment.updated != comment.created) {
+                        print '(updated '
+                        if(comment.updateAuthor != comment.author) {
+                            print 'by ' + html.format(comment.updateAuthor) + ' '
+                        }
+                        print 'on ' + html.format(comment.updated) + ') '
+                    }
+                %>:
+            </div>
+            <div class="comment">
+                <%= htmlFilter.apply(comment.bodyHtml) %>
+            </div>
+            <%  }
+
+            }
+            else {
+
+            %>
+            not available<%
+
+            }
+
+            %>
+        </div>
+    </div>
+</body>
+</html>

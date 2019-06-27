@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Label Index</title>
+    <link rel="stylesheet" type="text/css" href="<%= stylesDir %>/nav.css">
+</head>
+<body>
+    <div class="sidenav">
+        <ul><% menu.each { href, title -> %>
+            <li><a href="<%= href %>"><%= title %></a></li><% } %>
+        </ul>
+    </div>
+    <div class="main">
+        <h1>Index by labels</h1>
+        <%= labelIndex %>
+    </div>
+</body>
+</html>
